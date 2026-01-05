@@ -3,7 +3,7 @@ name: Check Code Format
 on:
   push:
     branches:
-      - master
+      - main
     paths:
       - "rustfmt.toml"
       - "Cargo.toml"
@@ -11,7 +11,7 @@ on:
       - ".github/workflows/ci_format.yml"
   pull_request:
     branches:
-      - master
+      - main
     paths:
       - "rustfmt.toml"
       - "**/*.rs"

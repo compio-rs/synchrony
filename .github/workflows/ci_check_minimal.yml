@@ -3,14 +3,14 @@ name: Check (Minimal Versions)
 on:
   push:
     branches:
-      - master
+      - main
     paths:
       - "Cargo.toml"
       - "**/*.rs"
       - ".github/workflows/ci_check_minimal.yml"
   pull_request:
     branches:
-      - master
+      - main
     paths:
       - "Cargo.toml"
       - "**/*.rs"
