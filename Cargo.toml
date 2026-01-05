@@ -23,6 +23,7 @@ watch = ["dep:see"]
 mutex = ["dep:futures", "dep:slab", "futures?/std"]
 waker_slot = ["dep:futures"]
 event = ["dep:event-listener", "dep:local-event"]
+bilock = ["waker_slot"]
 
 [dev-dependencies]
 futures = { version = "0.3.31", features = ["executor"] }
