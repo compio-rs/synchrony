@@ -5,7 +5,41 @@
 
 /// Multithreaded async Mutex
 pub mod sync {
+    use crate::AssertMt;
+
     super::impl_mutex!(sync);
+
+    // Mutexes can be moved freely between threads and acquired on any thread so
+    // long as the inner value can be safely sent between threads.
+    unsafe impl<T: ?Sized + Send> Send for Mutex<T> {}
+    unsafe impl<T: ?Sized + Send> Sync for Mutex<T> {}
+
+    // It's safe to switch which thread the acquire is being attempted on so long as
+    // `T` can be accessed on that thread.
+    unsafe impl<T: ?Sized + Send> Send for MutexLockFuture<'_, T> {}
+
+    // doesn't have any interesting `&self` methods (only Debug)
+    unsafe impl<T: ?Sized> Sync for MutexLockFuture<'_, T> {}
+
+    // It's safe to switch which thread the acquire is being attempted on so long as
+    // `T` can be accessed on that thread.
+    unsafe impl<T: ?Sized + Send> Send for OwnedMutexLockFuture<T> {}
+
+    // doesn't have any interesting `&self` methods (only Debug)
+    unsafe impl<T: ?Sized> Sync for OwnedMutexLockFuture<T> {}
+
+    // Safe to send since we don't track any thread-specific details-- the inner
+    // lock is essentially spinlock-equivalent (attempt to flip an atomic bool)
+    unsafe impl<T: ?Sized + Send> Send for MutexGuard<'_, T> {}
+    unsafe impl<T: ?Sized + Sync> Sync for MutexGuard<'_, T> {}
+
+    unsafe impl<T: ?Sized + Send> Send for OwnedMutexGuard<T> {}
+    unsafe impl<T: ?Sized + Sync> Sync for OwnedMutexGuard<T> {}
+
+    unsafe impl<T: ?Sized + Send, U: ?Sized + Send> Send for MappedMutexGuard<'_, T, U> {}
+    unsafe impl<T: ?Sized + Sync, U: ?Sized + Sync> Sync for MappedMutexGuard<'_, T, U> {}
+
+    impl<T: Send> AssertMt for Mutex<T> {}
 }
 
 /// Singlethreaded async Mutex

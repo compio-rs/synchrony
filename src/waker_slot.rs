@@ -6,6 +6,8 @@
 /// Multithreaded `WakerSlot` based on [`futures::task::AtomicWaker`].
 pub mod sync {
     pub use futures::task::AtomicWaker as WakerSlot;
+
+    impl crate::AssertMt for WakerSlot {}
 }
 
 /// Singlethreaded `WakerSlot`

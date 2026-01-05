@@ -3,6 +3,8 @@
 /// Multithreaded boolean flag based on [`std::sync::atomic::AtomicBool`]
 pub mod sync {
     super::impl_flag!(sync);
+
+    impl crate::AssertMt for Flag {}
 }
 
 /// Singlethreaded boolean flag based on [`std::cell::Cell`]

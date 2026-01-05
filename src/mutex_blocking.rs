@@ -63,6 +63,8 @@ pub mod sync {
             &mut *self.0
         }
     }
+
+    impl<T: Send> crate::AssertMt for Mutex<T> {}
 }
 
 /// Singlethreaded blocking Mutex

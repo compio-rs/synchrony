@@ -1,6 +1,13 @@
 /// Multithreaded BiLock
 pub mod sync {
     super::impl_bilock!(sync);
+
+    unsafe impl<T: Send> Send for Inner<T> {}
+    unsafe impl<T: Send> Sync for Inner<T> {}
+
+    impl<T: Send> crate::AssertMt for BiLock<T> {}
+    impl<T: Send> crate::AssertMt for BiLockAcquire<'_, T> {}
+    impl<T: Send> crate::AssertMt for BiLockGuard<'_, T> {}
 }
 
 /// Singlethreaded BiLock

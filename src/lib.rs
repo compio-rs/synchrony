@@ -95,3 +95,7 @@ pub mod unsync {
         flag::unsync as flag, mutex_blocking::unsync as mutex_blocking, shared::unsync as shared,
     };
 }
+
+/// A trait to assert that a type is `Send + Sync`.
+#[allow(dead_code)]
+trait AssertMt: Send + Sync {}

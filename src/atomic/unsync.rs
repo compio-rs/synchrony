@@ -43,12 +43,6 @@ impl Debug for AtomicBool {
     }
 }
 
-impl Display for AtomicBool {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        Display::fmt(&self.v.get(), f)
-    }
-}
-
 impl AtomicBool {
     /// Creates a new [`AtomicBool`]
     pub const fn new(val: bool) -> Self {
@@ -201,12 +195,6 @@ macro_rules! atomic_int {
         impl Debug for $t {
             fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
                 Debug::fmt(&self.v.get(), f)
-            }
-        }
-
-        impl Display for $t {
-            fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-                Display::fmt(&self.v.get(), f)
             }
         }
 
