@@ -54,13 +54,13 @@ pub mod sync {
         type Target = T;
 
         fn deref(&self) -> &Self::Target {
-            &*self.0
+            &self.0
         }
     }
 
     impl<'a, T> DerefMut for MutexGuard<'a, T> {
         fn deref_mut(&mut self) -> &mut Self::Target {
-            &mut *self.0
+            &mut self.0
         }
     }
 
@@ -118,13 +118,13 @@ pub mod unsync {
         type Target = T;
 
         fn deref(&self) -> &Self::Target {
-            &*self.0
+            &self.0
         }
     }
 
     impl<'a, T> DerefMut for MutexGuard<'a, T> {
         fn deref_mut(&mut self) -> &mut Self::Target {
-            &mut *self.0
+            &mut self.0
         }
     }
 }

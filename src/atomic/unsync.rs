@@ -1,8 +1,4 @@
-use std::{
-    cell::Cell,
-    fmt::{Debug, Display},
-    sync::atomic::Ordering,
-};
+use std::{cell::Cell, fmt::Debug, sync::atomic::Ordering};
 
 atomic_int!(AtomicU8(u8));
 atomic_int!(AtomicU16(u16));
