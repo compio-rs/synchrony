@@ -74,7 +74,6 @@ pub mod sync {
     #[doc(inline)]
     #[cfg(feature = "waker_slot")]
     pub use crate::waker_slot::sync as waker_slot;
-
     #[doc(inline)]
     pub use crate::{
         atomic::sync as atomic, flag::sync as flag, mutex_blocking::sync as mutex_blocking,
