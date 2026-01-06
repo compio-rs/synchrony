@@ -1,11 +1,11 @@
 //! A slot holds up to one waker for task wakeup.
 //!
-//! `sync` version is just [`futures::task::AtomicWaker`]; unsync version is a
+//! `sync` version is just [`futures_util::task::AtomicWaker`]; unsync version is a
 //! hand-rolled singlethreaded version with similar API.
 
-/// Multithreaded `WakerSlot` based on [`futures::task::AtomicWaker`].
+/// Multithreaded `WakerSlot` based on [`futures_util::task::AtomicWaker`].
 pub mod sync {
-    pub use futures::task::AtomicWaker as WakerSlot;
+    pub use futures_util::task::AtomicWaker as WakerSlot;
 
     impl crate::AssertMt for WakerSlot {}
 }

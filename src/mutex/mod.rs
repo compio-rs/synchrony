@@ -1,6 +1,6 @@
 //! Async Mutex lock
 //!
-//! The implementation is copied from [`futures::lock`] with our own
+//! The implementation is copied from [`futures_util::lock`] with our own
 //! synchronization primitives.
 
 /// Multithreaded async Mutex
@@ -90,7 +90,7 @@ macro_rules! impl_mutex {
             task::{Context, Poll},
         };
 
-        use futures::future::FusedFuture;
+        use futures_util::future::FusedFuture;
         use slab::Slab;
 
         use super::*;
