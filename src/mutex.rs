@@ -1,6 +1,6 @@
 //! Async Mutex lock
 //!
-//! The implementation is copied from [`futures_util::lock`] with our own
+//! The implementation is copied from [`futures::lock`] with our own
 //! synchronization primitives.
 
 /// Multithreaded async Mutex
@@ -90,7 +90,6 @@ macro_rules! impl_mutex {
             task::{Context, Poll},
         };
 
-        use futures_util::future::FusedFuture;
         use slab::Slab;
 
         use super::*;
@@ -269,12 +268,6 @@ macro_rules! impl_mutex {
             }
         }
 
-        impl<T: ?Sized> FusedFuture for OwnedMutexLockFuture<T> {
-            fn is_terminated(&self) -> bool {
-                self.mutex.is_none()
-            }
-        }
-
         impl<T: ?Sized> Future for OwnedMutexLockFuture<T> {
             type Output = OwnedMutexGuard<T>;
 
@@ -386,12 +379,6 @@ macro_rules! impl_mutex {
                         }),
                     )
                     .finish()
-            }
-        }
-
-        impl<T: ?Sized> FusedFuture for MutexLockFuture<'_, T> {
-            fn is_terminated(&self) -> bool {
-                self.mutex.is_none()
             }
         }
 
