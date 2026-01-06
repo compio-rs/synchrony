@@ -32,10 +32,11 @@ jobs:
         run: |
           rustup default nightly
           rustup component add clippy
+      - uses: taiki-e/install-action@cargo-hack
       - name: Check clippy
         shell: bash
         run: |
-          cargo clippy --all-features --all-targets -- -Dwarnings
+          cargo hack clippy --feature-powerset --no-dev-deps -- -Dwarnings
       - name: Check Docs
         run: |
           cargo doc --all-features --no-deps

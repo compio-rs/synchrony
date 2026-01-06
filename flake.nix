@@ -27,6 +27,7 @@
       {
         devShells.default = mkShell {
           buildInputs = [
+            cargo-hack
             (rust-bin.selectLatestNightlyWith (
               toolchain:
               toolchain.default.override {
