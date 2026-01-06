@@ -457,7 +457,7 @@ macro_rules! impl_mutex {
             ///
             /// ```
             /// # futures::executor::block_on(async {
-            /// use futures::lock::{Mutex, MutexGuard};
+            #[doc = concat!("use synchrony::", stringify!($sync), "::mutex::{Mutex, MutexGuard};")]
             ///
             /// let data = Mutex::new(Some("value".to_string()));
             /// {
@@ -529,7 +529,7 @@ macro_rules! impl_mutex {
             ///
             /// ```
             /// # futures::executor::block_on(async {
-            /// use futures::lock::{MappedMutexGuard, Mutex, MutexGuard};
+            #[doc = concat!("use synchrony::", stringify!($sync), "::mutex::{MappedMutexGuard, Mutex, MutexGuard};")]
             ///
             /// let data = Mutex::new(Some("value".to_string()));
             /// {
