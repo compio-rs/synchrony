@@ -1,7 +1,7 @@
 //! A slot holds up to one waker for task wakeup.
 //!
-//! `sync` version is just [`futures_util::task::AtomicWaker`]; unsync version is a
-//! hand-rolled singlethreaded version with similar API.
+//! `sync` version is just [`futures_util::task::AtomicWaker`]; unsync version
+//! is a hand-rolled singlethreaded version with similar API.
 
 /// Multithreaded `WakerSlot` based on [`futures_util::task::AtomicWaker`].
 pub mod sync {
