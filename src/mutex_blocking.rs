@@ -3,12 +3,19 @@
 /// Multithreaded blocking Mutex
 pub mod sync {
     use std::{
+        fmt,
         ops::{Deref, DerefMut},
         sync::{Mutex as Inner, MutexGuard as InnerGuard},
     };
 
     /// A multithreaded Mutex based on [`std::sync::Mutex`].
     pub struct Mutex<T: ?Sized>(Inner<T>);
+
+    impl<T: ?Sized + fmt::Debug> fmt::Debug for Mutex<T> {
+        fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+            self.0.fmt(f)
+        }
+    }
 
     impl<T> Mutex<T> {
         /// Creates a new mutex in an unlocked state ready for use.
@@ -43,6 +50,12 @@ pub mod sync {
     /// unlocked.
     pub struct MutexGuard<'a, T: ?Sized>(InnerGuard<'a, T>);
 
+    impl<T: ?Sized + fmt::Debug> fmt::Debug for MutexGuard<'_, T> {
+        fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+            self.0.fmt(f)
+        }
+    }
+
     impl<'a, T: ?Sized> MutexGuard<'a, T> {
         /// Get the inner [`std::sync::MutexGuard`].
         pub fn into_inner(self) -> InnerGuard<'a, T> {
@@ -71,11 +84,18 @@ pub mod sync {
 pub mod unsync {
     use std::{
         cell::{RefCell as Inner, RefMut as InnerGuard},
+        fmt,
         ops::{Deref, DerefMut},
     };
 
     /// A singlethreaded Mutex based on [`std::cell::RefCell`].
     pub struct Mutex<T: ?Sized>(Inner<T>);
+
+    impl<T: ?Sized + fmt::Debug> fmt::Debug for Mutex<T> {
+        fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+            self.0.fmt(f)
+        }
+    }
 
     impl<T> Mutex<T> {
         /// Creates a new mutex in an unlocked state ready for use.
@@ -106,6 +126,12 @@ pub mod unsync {
     /// structure is dropped (falls out of scope), the lock will be
     /// unlocked.
     pub struct MutexGuard<'a, T: ?Sized>(InnerGuard<'a, T>);
+
+    impl<T: ?Sized + fmt::Debug> fmt::Debug for MutexGuard<'_, T> {
+        fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+            self.0.fmt(f)
+        }
+    }
 
     impl<'a, T: ?Sized> MutexGuard<'a, T> {
         /// Get the inner [`std::cell::RefMut`].
