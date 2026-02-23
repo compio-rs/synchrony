@@ -68,7 +68,7 @@ macro_rules! impl_notify {
             }
         }
 
-        /// An event that won't wake until [`EventHandle::notify`] is called
+        /// An event that won't wake until [`NotifyHandle::notify`] is called
         /// successfully.
         #[derive(Debug)]
         pub struct Notify {
@@ -99,13 +99,13 @@ macro_rules! impl_notify {
                 self.flag.notified()
             }
 
-            /// Wait for [`EventHandle::notify`] called.
+            /// Wait for [`NotifyHandle::notify`] called.
             pub async fn wait(self) {
                 self.flag.await
             }
         }
 
-        /// A wake up handle to [`Event`].
+        /// A wake up handle to [`Notify`].
         pub struct NotifyHandle {
             flag: NotifyImpl,
         }
