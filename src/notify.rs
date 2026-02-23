@@ -94,12 +94,12 @@ macro_rules! impl_notify {
                 NotifyHandle::new(self.flag.clone())
             }
 
-            /// Get if the event has been notified.
+            /// Returns whether the event has been notified.
             pub fn notified(&self) -> bool {
                 self.flag.notified()
             }
 
-            /// Wait for [`NotifyHandle::notify`] called.
+            /// Wait for [`NotifyHandle::notify`] to be called.
             pub async fn wait(self) {
                 self.flag.await
             }
