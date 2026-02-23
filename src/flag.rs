@@ -19,6 +19,7 @@ macro_rules! impl_flag {
         use crate::$sync::atomic::AtomicBool;
 
         /// A boolean flag
+        #[derive(Debug)]
         pub struct Flag(AtomicBool);
 
         impl Flag {

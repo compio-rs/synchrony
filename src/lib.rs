@@ -47,6 +47,8 @@ mod bilock;
 mod event;
 #[cfg(feature = "mutex")]
 mod mutex;
+#[cfg(feature = "notify")]
+mod notify;
 #[cfg(feature = "waker_slot")]
 mod waker_slot;
 
@@ -71,6 +73,9 @@ pub mod sync {
     #[doc(inline)]
     #[cfg(feature = "mutex")]
     pub use crate::mutex::sync as mutex;
+    #[doc(inline)]
+    #[cfg(feature = "notify")]
+    pub use crate::notify::sync as notify;
     #[doc(inline)]
     #[cfg(feature = "waker_slot")]
     pub use crate::waker_slot::sync as waker_slot;
@@ -97,6 +102,9 @@ pub mod unsync {
     #[doc(inline)]
     #[cfg(feature = "mutex")]
     pub use crate::mutex::unsync as mutex;
+    #[doc(inline)]
+    #[cfg(feature = "notify")]
+    pub use crate::notify::unsync as notify;
     #[doc(inline)]
     #[cfg(feature = "waker_slot")]
     pub use crate::waker_slot::unsync as waker_slot;
