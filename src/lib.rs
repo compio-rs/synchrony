@@ -66,7 +66,7 @@ pub mod sync {
 
     #[doc(inline)]
     #[cfg(feature = "async_flag")]
-    pub use crate::async_flag::sync as notify;
+    pub use crate::async_flag::sync as async_flag;
     #[doc(inline)]
     #[cfg(feature = "bilock")]
     pub use crate::bilock::sync as bilock;
@@ -95,7 +95,7 @@ pub mod unsync {
 
     #[doc(inline)]
     #[cfg(feature = "async_flag")]
-    pub use crate::async_flag::unsync as notify;
+    pub use crate::async_flag::unsync as async_flag;
     #[doc(inline)]
     #[cfg(feature = "bilock")]
     pub use crate::bilock::unsync as bilock;
