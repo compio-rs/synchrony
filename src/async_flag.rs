@@ -2,8 +2,8 @@
 pub mod sync {
     super::impl_notify!(sync);
 
-    impl crate::AssertMt for Notify {}
-    impl crate::AssertMt for NotifyHandle {}
+    impl crate::AssertMt for AsyncFlag {}
+    impl crate::AssertMt for AsyncFlagHandle {}
 }
 
 /// Singlethreaded notifier
@@ -27,9 +27,9 @@ macro_rules! impl_notify {
         }
 
         #[derive(Debug, Clone)]
-        struct NotifyImpl(Shared<Inner>);
+        struct AsyncFlagImpl(Shared<Inner>);
 
-        impl NotifyImpl {
+        impl AsyncFlagImpl {
             pub fn new() -> Self {
                 Self(Shared::new(Inner {
                     waker: WakerSlot::new(),
@@ -47,7 +47,7 @@ macro_rules! impl_notify {
             }
         }
 
-        impl Future for NotifyImpl {
+        impl Future for AsyncFlagImpl {
             type Output = ();
 
             fn poll(self: Pin<&mut Self>, cx: &mut Context<'_>) -> Poll<()> {
@@ -68,30 +68,30 @@ macro_rules! impl_notify {
             }
         }
 
-        /// An event that won't wake until [`NotifyHandle::notify`] is called
+        /// An event that won't wake until [`AsyncFlagHandle::notify`] is called
         /// successfully.
         #[derive(Debug)]
-        pub struct Notify {
-            flag: NotifyImpl,
+        pub struct AsyncFlag {
+            flag: AsyncFlagImpl,
         }
 
-        impl Default for Notify {
+        impl Default for AsyncFlag {
             fn default() -> Self {
                 Self::new()
             }
         }
 
-        impl Notify {
-            /// Create [`Notify`].
+        impl AsyncFlag {
+            /// Create [`AsyncFlag`].
             pub fn new() -> Self {
                 Self {
-                    flag: NotifyImpl::new(),
+                    flag: AsyncFlagImpl::new(),
                 }
             }
 
-            /// Get a notify handle.
-            pub fn handle(&self) -> NotifyHandle {
-                NotifyHandle::new(self.flag.clone())
+            /// Get a handle to notify the flag.
+            pub fn handle(&self) -> AsyncFlagHandle {
+                AsyncFlagHandle::new(self.flag.clone())
             }
 
             /// Returns whether the event has been notified.
@@ -99,19 +99,19 @@ macro_rules! impl_notify {
                 self.flag.notified()
             }
 
-            /// Wait for [`NotifyHandle::notify`] to be called.
+            /// Wait for [`AsyncFlagHandle::notify`] to be called.
             pub async fn wait(self) {
                 self.flag.await
             }
         }
 
-        /// A wake up handle to [`Notify`].
-        pub struct NotifyHandle {
-            flag: NotifyImpl,
+        /// A wake up handle to [`AsyncFlag`].
+        pub struct AsyncFlagHandle {
+            flag: AsyncFlagImpl,
         }
 
-        impl NotifyHandle {
-            fn new(flag: NotifyImpl) -> Self {
+        impl AsyncFlagHandle {
+            fn new(flag: AsyncFlagImpl) -> Self {
                 Self { flag }
             }
 

@@ -23,7 +23,7 @@ mutex = ["dep:slab"]
 waker_slot = ["dep:futures-util"]
 event = ["dep:event-listener", "dep:local-event"]
 bilock = ["waker_slot"]
-notify = ["waker_slot"]
+async_flag = ["waker_slot"]
 
 [dev-dependencies]
 futures = { version = "0.3.31", features = ["executor"] }
