@@ -15,3 +15,4 @@ All of the following primitives are provided in both sync and unsync versions:
 - BiLock
 - Flag (specialized `AtomicBool`)
 - Event (`event-listener` and `local-event`)
+- Async Flag
