@@ -40,14 +40,14 @@ macro_rules! impl_flag {
 
             /// Flip the current value and return the new value
             pub fn flip(&self) -> bool {
-                let mut current = self.get();
+                let mut current = self.0.load(Ordering::Relaxed);
                 loop {
                     let new = !current;
                     match self.0.compare_exchange_weak(
                         current,
                         new,
                         Ordering::AcqRel,
-                        Ordering::Acquire,
+                        Ordering::Relaxed,
                     ) {
                         Ok(_) => return new,
                         Err(previous) => current = previous,
