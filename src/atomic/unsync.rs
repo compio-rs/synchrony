@@ -132,6 +132,33 @@ impl AtomicBool {
         }
     }
 
+    /// Fetches the value, and applies a function to it that returns an optional
+    /// new value. Returns a `Result` of `Ok(previous_value)` if the function
+    /// returned `Some(_)`, else `Err(previous_value)`.
+    pub fn try_update(
+        &self,
+        _: Ordering,
+        _: Ordering,
+        mut f: impl FnMut(bool) -> Option<bool>,
+    ) -> Result<bool, bool> {
+        let curr = self.v.get();
+        if let Some(new) = f(curr) {
+            self.v.set(new);
+            Ok(curr)
+        } else {
+            Err(curr)
+        }
+    }
+
+    /// Fetches the value, and applies a function to it that returns a new
+    /// value. Returns the previous_value.
+    pub fn update(&self, _: Ordering, _: Ordering, mut f: impl FnMut(bool) -> bool) -> bool {
+        let curr = self.v.get();
+        let new = f(curr);
+        self.v.set(new);
+        curr
+    }
+
     /// Bitwise "and" with the current value.
     ///
     /// Performs a bitwise "and" operation on the current value and the argument
@@ -304,6 +331,33 @@ macro_rules! atomic_int {
                 } else {
                     Err(curr)
                 }
+            }
+
+            /// Fetches the value, and applies a function to it that returns an optional
+            /// new value. Returns a `Result` of `Ok(previous_value)` if the function
+            /// returned `Some(_)`, else `Err(previous_value)`.
+            pub fn try_update(
+                &self,
+                _: Ordering,
+                _: Ordering,
+                mut f: impl FnMut($i) -> Option<$i>,
+            ) -> Result<$i, $i> {
+                let curr = self.v.get();
+                if let Some(new) = f(curr) {
+                    self.v.set(new);
+                    Ok(curr)
+                } else {
+                    Err(curr)
+                }
+            }
+
+            /// Fetches the value, and applies a function to it that returns a new value. Returns the
+            /// previous_value.
+            pub fn update(&self, _: Ordering, _: Ordering, mut f: impl FnMut($i) -> $i) -> $i {
+                let curr = self.v.get();
+                let new = f(curr);
+                self.v.set(new);
+                curr
             }
 
             /// Adds to the current value, returning the previous value.
