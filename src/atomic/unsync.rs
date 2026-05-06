@@ -433,8 +433,9 @@ use atomic_int;
 
 #[cfg(test)]
 mod tests {
-    use super::*;
     use std::sync::atomic::Ordering::Relaxed;
+
+    use super::*;
 
     #[test]
     fn atomic_u16_fetch_add_wraps() {
