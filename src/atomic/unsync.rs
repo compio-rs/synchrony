@@ -362,12 +362,12 @@ macro_rules! atomic_int {
 
             /// Adds to the current value, returning the previous value.
             pub fn fetch_add(&self, val: $i, _: Ordering) -> $i {
-                self.v.replace(self.v.get() + val)
+                self.v.replace(self.v.get().wrapping_add(val))
             }
 
-            /// Subtract to the current value, returning the previous value.
+            /// Subtract from the current value, returning the previous value.
             pub fn fetch_sub(&self, val: $i, _: Ordering) -> $i {
-                self.v.replace(self.v.get() - val)
+                self.v.replace(self.v.get().wrapping_sub(val))
             }
 
             /// Bitwise "and" with the current value.
@@ -430,3 +430,39 @@ macro_rules! atomic_int {
 }
 
 use atomic_int;
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use std::sync::atomic::Ordering::Relaxed;
+
+    #[test]
+    fn atomic_u16_fetch_add_wraps() {
+        let a = AtomicU16::new(u16::MAX);
+        let old = a.fetch_add(1, Relaxed);
+        assert_eq!(old, u16::MAX);
+        assert_eq!(a.load(Relaxed), 0);
+    }
+
+    #[test]
+    fn atomic_u16_fetch_sub_wraps() {
+        let a = AtomicU16::new(0);
+        let old = a.fetch_sub(1, Relaxed);
+        assert_eq!(old, 0);
+        assert_eq!(a.load(Relaxed), u16::MAX);
+    }
+
+    #[test]
+    fn atomic_u8_fetch_add_wraps() {
+        let a = AtomicU8::new(u8::MAX);
+        assert_eq!(a.fetch_add(1, Relaxed), u8::MAX);
+        assert_eq!(a.load(Relaxed), 0);
+    }
+
+    #[test]
+    fn atomic_i16_fetch_add_wraps() {
+        let a = AtomicI16::new(i16::MAX);
+        assert_eq!(a.fetch_add(1, Relaxed), i16::MAX);
+        assert_eq!(a.load(Relaxed), i16::MIN);
+    }
+}
