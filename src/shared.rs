@@ -8,7 +8,7 @@
 /// [`Shared`]: sync::Shared
 pub mod sync {
     crate::cfg_loom! {
-        pub use std::sync::Arc as Shared;
+        pub use std::sync::{Arc as Shared, Weak};
     }
 }
 
@@ -16,5 +16,5 @@ pub mod sync {
 ///
 /// [`Shared`]: unsync::Shared
 pub mod unsync {
-    pub use std::rc::Rc as Shared;
+    pub use std::rc::{Rc as Shared, Weak};
 }
